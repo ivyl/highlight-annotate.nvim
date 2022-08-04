@@ -172,11 +172,24 @@ local function complete_ha_a(args)
   return vim.tbl_filter(function(v) return vim.startswith(v, last_arg) end, list_styles(M._a_prefix))
 end
 
+local function list_extmarks()
+  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+  return vim.api.nvim_buf_get_extmarks(0, M._namespace, { row-1, 0 }, { row-1, 0 }, {})
+end
+
+local function command_ha_del_a(_)
+  local latest = table.remove(list_extmarks(), 1)
+  if latest then
+    vim.api.nvim_buf_del_extmark(0, M._namespace, latest[1])
+  end
+end
+
 local subcommands = {
   ["hl"]     = { command_ha_hl,     complete_ha_hl },
   ["list"]   = { command_ha_list,   nil },
   ["del-hl"] = { command_ha_del_hl, complete_ha_del_hl },
   ["a"]      = { command_ha_a,      complete_ha_a },
+  ["del-a"]  = { command_ha_del_a,  nil }
 }
 
 local function command_ha(opts)
