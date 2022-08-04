@@ -46,12 +46,12 @@ local function create_default_highlights()
   end
 end
 
-local function list_available_hl_styles()
+local function list_styles(prefix)
   local all = vim.fn.getcompletion("", "highlight")
   local filtered = {}
   for _, name in ipairs(all) do
-    if name:find(M._hl_prefix) then
-      table.insert(filtered, name:sub(#M._hl_prefix + 1))
+    if name:find(prefix) then
+      table.insert(filtered, name:sub(#prefix + 1))
     end
   end
   return filtered
@@ -112,7 +112,7 @@ local function complete_ha_hl(args)
   if #args == 2 and not vim.startswith(args[1], "/") then return end
 
   local last_arg = table.remove(args)
-  return vim.tbl_filter(function(v) return vim.startswith(v, last_arg) end, list_available_hl_styles())
+  return vim.tbl_filter(function(v) return vim.startswith(v, last_arg) end, list_styles(M._hl_prefix))
 end
 
 local function command_ha_list(args)
