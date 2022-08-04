@@ -137,7 +137,7 @@ local function command_ha_list(args)
   end
 end
 
-local function command_ha_del(args)
+local function command_ha_del_hl(args)
   local window = vim.api.nvim_win_get_number(0)
   M._windows[window] = M._windows[window] or {}
 
@@ -150,7 +150,7 @@ local function command_ha_del(args)
   end
 end
 
-local function complete_ha_del(args)
+local function complete_ha_del_hl(args)
   if #args ~= 1 then return end
   return vim.tbl_filter(function(v) return vim.startswith(v, args[1]) end, list_hls())
 end
@@ -173,10 +173,10 @@ local function complete_ha_a(args)
 end
 
 local subcommands = {
-  hl   = { command_ha_hl,   complete_ha_hl },
-  list = { command_ha_list, nil },
-  del  = { command_ha_del,  complete_ha_del },
-  a    = { command_ha_a,    complete_ha_a },
+  ["hl"]     = { command_ha_hl,     complete_ha_hl },
+  ["list"]   = { command_ha_list,   nil },
+  ["del-hl"] = { command_ha_del_hl, complete_ha_del_hl },
+  ["a"]      = { command_ha_a,      complete_ha_a },
 }
 
 local function command_ha(opts)
