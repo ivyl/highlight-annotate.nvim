@@ -22,24 +22,24 @@ local function create_default_highlights()
   local green     = { "#859900", 2  }
 
   local hls = {
-    magenta = { bg = magenta, fg = base2 },
-    violet  = { bg = violet,  fg = base2 },
-    green   = { bg = green,   fg = base2 },
-    red     = { bg = red,     fg = base2 },
-    orange  = { bg = orange,  fg = base2 },
-    blue    = { bg = blue,    fg = base2 },
-    yellow  = { bg = yellow,  fg = base02 },
-    cyan    = { bg = cyan,    fg = base02 },
-    white   = { bg = base3,   fg = base02 },
-    black   = { bg = base03,  fg = base2 },
+    magenta = { main = magenta, complement = base2 },
+    violet  = { main = violet,  complement = base2 },
+    green   = { main = green,   complement = base2 },
+    red     = { main = red,     complement = base2 },
+    orange  = { main = orange,  complement = base2 },
+    blue    = { main = blue,    complement = base2 },
+    yellow  = { main = yellow,  complement = base02 },
+    cyan    = { main = cyan,    complement = base02 },
+    white   = { main = base3,   complement = base02 },
+    black   = { main = base03,  complement = base2 },
   }
 
   for key, value in pairs(hls) do
     local vals = {
-      fg      = value.fg[1],
-      ctermfg = value.fg[2],
-      bg      = value.bg[1],
-      ctermbg = value.bg[2],
+      bg      = value.main[1],
+      ctermbg = value.main[2],
+      fg      = value.complement[1],
+      ctermfg = value.complement[2],
       default = true,
     }
     vim.api.nvim_set_hl(0, M._hl_prefix .. key, vals )
