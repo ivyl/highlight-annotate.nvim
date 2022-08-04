@@ -1,5 +1,7 @@
 local M = {
   _hl_prefix = "HightligtAnnotateHl",
+  _a_prefix = "HightligtAnnotateA",
+  _namespace = vim.api.nvim_create_namespace("HightligtAnnotate"),
   _windows = {},
 }
 
@@ -43,6 +45,15 @@ local function create_default_highlights()
       default = true,
     }
     vim.api.nvim_set_hl(0, M._hl_prefix .. key, vals )
+  end
+
+  for key, value in pairs(hls) do
+    local vals = {
+      fg      = value.main[1],
+      ctermfg = value.main[2],
+      default = true,
+    }
+    vim.api.nvim_set_hl(0, M._a_prefix .. key, vals )
   end
 end
 
@@ -144,10 +155,28 @@ local function complete_ha_del(args)
   return vim.tbl_filter(function(v) return vim.startswith(v, args[1]) end, list_hls())
 end
 
+local function command_ha_a(args)
+  local hl = table.remove(args, 1)
+  local opts = {
+    virt_text     = { { " ■ " .. table.concat(args, " "), M._a_prefix .. hl } },
+    virt_text_pos = "right_align"
+  }
+  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_extmark(0, M._namespace, row-1, 0, opts )
+end
+
+local function complete_ha_a(args)
+  if #args > 1 then return end
+
+  local last_arg = table.remove(args)
+  return vim.tbl_filter(function(v) return vim.startswith(v, last_arg) end, list_styles(M._a_prefix))
+end
+
 local subcommands = {
   hl   = { command_ha_hl,   complete_ha_hl },
   list = { command_ha_list, nil },
   del  = { command_ha_del,  complete_ha_del },
+  a    = { command_ha_a,    complete_ha_a },
 }
 
 local function command_ha(opts)
