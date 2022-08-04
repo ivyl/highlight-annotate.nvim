@@ -3,6 +3,7 @@ local M = {
   _a_prefix = "HightligtAnnotateA",
   _namespace = vim.api.nvim_create_namespace("HightligtAnnotate"),
   _windows = {},
+  _buffers = {},
 }
 
 local function create_default_highlights()
@@ -157,12 +158,16 @@ end
 
 local function command_ha_a(args)
   local hl = table.remove(args, 1)
+  local text = table.concat(args, " ")
   local opts = {
-    virt_text     = { { " ■ " .. table.concat(args, " "), M._a_prefix .. hl } },
+    virt_text     = { { " ■ " .. text, M._a_prefix .. hl } },
     virt_text_pos = "right_align"
   }
   local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-  vim.api.nvim_buf_set_extmark(0, M._namespace, row-1, 0, opts )
+  local buf = vim.api.nvim_get_current_buf()
+  M._buffers[buf] = M._buffers[buf] or {}
+  local extmark = vim.api.nvim_buf_set_extmark(0, M._namespace, row-1, 0, opts )
+  M._buffers[buf][extmark] =  { hl, text }
 end
 
 local function complete_ha_a(args)
@@ -177,11 +182,33 @@ local function list_extmarks()
   return vim.api.nvim_buf_get_extmarks(0, M._namespace, { row-1, 0 }, { row-1, 0 }, {})
 end
 
-local function command_ha_del_a(_)
-  local latest = table.remove(list_extmarks(), 1)
-  if latest then
-    vim.api.nvim_buf_del_extmark(0, M._namespace, latest[1])
+local function command_ha_del_a(args)
+  local buf = vim.api.nvim_get_current_buf()
+  local extmark = table.remove(args, 1)
+
+  extmark = extmark or table.remove(list_extmarks(), 1)[1]
+  extmark = tonumber(extmark)
+
+  if extmark then
+    M._buffers[buf][extmark] = nil
+    vim.api.nvim_buf_del_extmark(0, M._namespace, extmark)
   end
+end
+
+local function complete_ha_del_a(args)
+  if #args > 1 then return end
+
+  local buf = vim.api.nvim_get_current_buf()
+  local extmarks = {}
+
+  for _, v in ipairs(list_extmarks()) do
+    local extmark = v[1]
+    local hl, text = unpack(M._buffers[buf][extmark])
+    table.insert(extmarks, ("%d %s %s"):format(extmark, hl, text))
+  end
+
+  local last_arg = table.remove(args)
+  return vim.tbl_filter(function(v) return vim.startswith(v, last_arg) end, extmarks)
 end
 
 local subcommands = {
@@ -189,7 +216,7 @@ local subcommands = {
   ["list"]   = { command_ha_list,   nil },
   ["del-hl"] = { command_ha_del_hl, complete_ha_del_hl },
   ["a"]      = { command_ha_a,      complete_ha_a },
-  ["del-a"]  = { command_ha_del_a,  nil }
+  ["del-a"]  = { command_ha_del_a,  complete_ha_del_a }
 }
 
 local function command_ha(opts)
