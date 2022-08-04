@@ -206,7 +206,7 @@ local function complete_ha_del_a(args)
   local buf = vim.api.nvim_get_current_buf()
   local extmarks = {}
 
-  for _, v in ipairs(list_extmarks()) do
+  for _, v in pairs(list_extmarks()) do
     local extmark = v[1]
     local hl, text = unpack(M._buffers[buf][extmark])
     table.insert(extmarks, ("%d %s %s"):format(extmark, hl, text))
