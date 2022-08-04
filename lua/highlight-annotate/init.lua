@@ -157,7 +157,12 @@ local function complete_ha_del_hl(args)
 end
 
 local function command_ha_a(args)
-  local hl = table.remove(args, 1)
+  local hl = "magenta"
+
+  if vim.tbl_contains(list_styles(M._a_prefix), args[1]) then
+    hl = table.remove(args, 1)
+  end
+
   local text = table.concat(args, " ")
   local opts = {
     virt_text     = { { " ■ " .. text, M._a_prefix .. hl } },
