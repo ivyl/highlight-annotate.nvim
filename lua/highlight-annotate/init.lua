@@ -1,5 +1,5 @@
 local M = {
-  _hl_prefix = "HightligtAnnotate",
+  _hl_prefix = "HightligtAnnotateHl",
   _windows = {},
 }
 
