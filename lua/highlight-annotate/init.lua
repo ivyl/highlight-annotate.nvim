@@ -147,7 +147,7 @@ local function command_ha_del_hl(args)
   if removed then
     vim.fn.matchdelete(removed[1])
   else
-    vim.notify("wrong hl to delete", vim.log.levels.ERROR)
+    vim.notify("no such highlight", vim.log.levels.ERROR)
   end
 end
 
