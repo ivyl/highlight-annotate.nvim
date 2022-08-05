@@ -190,14 +190,20 @@ end
 
 local function command_ha_del_a(args)
   local buf = vim.api.nvim_get_current_buf()
-  local extmark = table.remove(args, 1)
+  local extmark_id = table.remove(args, 1)
 
-  extmark = extmark or table.remove(list_extmarks(), 1)[1]
-  extmark = tonumber(extmark)
+  if not extmark_id then
+    local extmark = table.remove(list_extmarks(), 1)
+    extmark_id = extmark and extmark[1]
+  end
 
-  if extmark then
-    M._buffers[buf][extmark] = nil
-    vim.api.nvim_buf_del_extmark(0, M._namespace, extmark)
+  extmark_id = tonumber(extmark_id)
+
+  if extmark_id and M._buffers[buf] and M._buffers[buf][extmark_id] then
+    M._buffers[buf][extmark_id] = nil
+    vim.api.nvim_buf_del_extmark(0, M._namespace, extmark_id)
+  else
+    vim.notify("no such annotation", vim.log.levels.ERROR)
   end
 end
 
