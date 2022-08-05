@@ -163,13 +163,14 @@ local function command_ha_a(args)
     hl = table.remove(args, 1)
   end
 
+  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+  local buf = vim.api.nvim_get_current_buf()
   local text = table.concat(args, " ")
   local opts = {
     virt_text     = { { " ■ " .. text, M._a_prefix .. hl } },
     virt_text_pos = "right_align"
   }
-  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-  local buf = vim.api.nvim_get_current_buf()
+
   M._buffers[buf] = M._buffers[buf] or {}
   local extmark = vim.api.nvim_buf_set_extmark(0, M._namespace, row-1, 0, opts )
   M._buffers[buf][extmark] =  { hl, text }
