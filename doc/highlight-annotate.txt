@@ -1,0 +1,75 @@
+================================================================================
+INTRODUCTION                                            *highlight-annotate.txt*
+
+Highlight-annotate.nvim is a plugin for aiding reading and analyzing text files
+such as logs or program sources.
+
+The highlights and annotations are not persistent and last only for the current
+editing session.
+
+
+highlight_annotate.setup()                          *highlight_annotate.setup()*
+
+    Setup function to initialize the plugin and configure |:HA| command.
+
+    >
+    require('highlight-annotate').setup()
+<
+
+
+================================================================================
+COLORS                                               *highlight-annotate-colors*
+
+TODO
+
+`HighlightAnnotateHl`-prefixed
+`HighlightAnnotateA`-prefixed
+
+
+================================================================================
+COMMAND                                             *highlight-annotate-command*
+
+:HA [op] ...                                                               *:HA*
+
+:HA a [color] [text]
+
+    Add an annotation to the current line. Tab-completes colors. If color is
+    not provided defaults to magenta. If no text is provided it only adds the
+    "■" symbol.
+
+    Uses virtual text, see |nvim_buf_set_extmark()|.
+
+    NOTE: annotations are attached to a buffer.
+
+
+:HA del-a [number]
+
+    Delete annotation on the current line. All arguments after the number are
+    ignored. Number is optional and when not provided the more recent
+    annotation is removed. Tab-completion provided.
+
+
+:HA hl color [/pattern]
+:HA hl [/pattern] color
+
+    Highlights pattern using selected background color. If no pattern is
+    provided the last used search pattern is used.
+
+    Pattern must start with a slash ("/").
+
+    NOTE: annotations are attached to a |window|.
+
+
+:HA list
+
+    Lists all the highlighted patterns.
+
+
+:HA del-hl [number]
+
+    Deletes the selected highlight. All arguments after the number are ignored.
+    Number is optional and when not provided the more recent highlight is
+    removed. Tab-completion provided.
+
+
+================================================================================
