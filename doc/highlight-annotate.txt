@@ -20,10 +20,23 @@ highlight_annotate.setup()                          *highlight_annotate.setup()*
 ================================================================================
 COLORS                                               *highlight-annotate-colors*
 
-TODO
+This plugin defines the following colors/styles based on the solarized palette:
 
-`HighlightAnnotateHl`-prefixed
-`HighlightAnnotateA`-prefixed
+ - magenta
+ - violet
+ - green
+ - red
+ - orange
+ - blue
+ - yellow
+ - cyan
+ - white
+ - black
+
+Those can be overwritten by defining your own `HighlightAnnotateHl`-prefixed
+and `HighlightAnnotateA`-prefixed highlights. See |:highlight|.
+
+The plugin automatically picks up any definitions using the mentioned prefixes.
 
 
 ================================================================================
@@ -34,8 +47,8 @@ COMMAND                                             *highlight-annotate-command*
 :HA a [color] [text]
 
     Add an annotation to the current line. Tab-completes colors. If color is
-    not provided defaults to magenta. If no text is provided it only adds the
-    "■" symbol.
+    not provided defaults to magenta (see |highlight-annotate-colors|). If no
+    text is provided it only adds the "■" symbol.
 
     Uses virtual text, see |nvim_buf_set_extmark()|.
 
@@ -52,8 +65,9 @@ COMMAND                                             *highlight-annotate-command*
 :HA hl color [/pattern]
 :HA hl [/pattern] color
 
-    Highlights pattern using selected background color. If no pattern is
-    provided the last used search pattern is used.
+    Highlights pattern using selected background color (see
+    |highlight-annotate-colors|). If no pattern is provided the last used
+    search pattern is used.
 
     Pattern must start with a slash ("/").
 

@@ -1,4 +1,5 @@
 :HA	highlight-annotate.txt	/*:HA*
+highlight-annotate-colors	highlight-annotate.txt	/*highlight-annotate-colors*
 highlight-annotate-command	highlight-annotate.txt	/*highlight-annotate-command*
 highlight-annotate.txt	highlight-annotate.txt	/*highlight-annotate.txt*
 highlight_annotate.setup()	highlight-annotate.txt	/*highlight_annotate.setup()*
