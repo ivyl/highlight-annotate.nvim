@@ -6,7 +6,7 @@ local M = {
   _buffers = {},
 }
 
-local function create_default_highlights()
+local function create_default_colors()
   local base03    = { "#002b36", 8  }
   local base02    = { "#073642", 0  }
   -- local base01    = { "#586e75", 10 }
@@ -263,9 +263,20 @@ local function complete_ha(_, line)
   end
 end
 
-function M.setup()
-  create_default_highlights()
+local default_opts = {
+  create_default_colors = true,
+}
+
+function M.setup(opts)
+  if type(opts) == "table" then
+    M._opts = vim.tbl_deep_extend("force", default_opts, opts)
+  else
+    M._opts = default_opts
+  end
+
   vim.api.nvim_create_user_command("HA", command_ha, { force = true, nargs = "*", complete = complete_ha })
+
+  if M._opts.create_default_colors then create_default_colors() end
 end
 
 return M
