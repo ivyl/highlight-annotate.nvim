@@ -329,4 +329,15 @@ function M.setup(opts)
   end
 end
 
+function M._list_annotations()
+  local extmarks = vim.api.nvim_buf_get_extmarks(0, M._namespace, 0, -1, {})
+  local buf = vim.api.nvim_get_current_buf()
+  local ret = {}
+  for _, extmark in ipairs(extmarks) do
+    local extmark_id = extmark[1]
+    table.insert(ret, { extmark, M._buffers[buf][extmark_id] })
+  end
+  return ret
+end
+
 return M

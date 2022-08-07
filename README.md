@@ -44,3 +44,20 @@ Local to buffer.
 ![Preview](https://i.imgur.com/NjTHn6P.gif)
 
 `:HA del-a`
+
+
+## Search Annotations
+
+Requires [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+
+```lua
+local telescope = require 'telescope'
+-- regular telescope setup goes here
+
+telescope.load_extension('highlight-annotate')
+vim.keymap.set('n', '<leader>fa', telescope.extensions["highlight-annotate"].annotations)
+```
+
+`:Telescope highlight-annotate annotations` or use the mapping.
+
+![Preview](https://i.imgur.com/8RD9CXF.gif)

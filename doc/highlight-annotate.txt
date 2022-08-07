@@ -103,3 +103,25 @@ COMMAND                                             *highlight-annotate-command*
 
 
 ================================================================================
+TELESCOPE EXTENSION                               *highlight-annotate-telescope*
+
+Requires |telescope.nvim| plugin.
+
+The extension can be loaded after telescope setup:
+>
+  local telescope = require 'telescope'
+  -- regular telescope setup goes here
+
+  telescope.load_extension('highlight-annotate')
+<
+There's currently only one command that searches the annotations. It can be
+invoked via the :Telescope command:
+>
+  :Telescope highlight-annotate annotations
+<
+or a mapping can be created:
+>
+  vim.keymap.set('n', '<Leader>fa', telescope.extensions["highlight-annotate"].annotations)
+<
+
+================================================================================

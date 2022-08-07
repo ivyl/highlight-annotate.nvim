@@ -2,5 +2,6 @@
 highlight-annotate-colors	highlight-annotate.txt	/*highlight-annotate-colors*
 highlight-annotate-command	highlight-annotate.txt	/*highlight-annotate-command*
 highlight-annotate-opts	highlight-annotate.txt	/*highlight-annotate-opts*
+highlight-annotate-telescope	highlight-annotate.txt	/*highlight-annotate-telescope*
 highlight-annotate.txt	highlight-annotate.txt	/*highlight-annotate.txt*
 highlight_annotate.setup()	highlight-annotate.txt	/*highlight_annotate.setup()*
