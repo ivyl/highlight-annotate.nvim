@@ -263,8 +263,46 @@ local function complete_ha(_, line)
   end
 end
 
+local function navigate_to_annotation(direction)
+  local extmarks = vim.api.nvim_buf_get_extmarks(0, M._namespace, 0, -1, {})
+  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+
+  -- cursor pos is 1-based but extmarks are 0-based
+  local ext_rows = vim.tbl_map(function(m) return m[2]+1 end, extmarks)
+  table.sort(ext_rows)
+  local prev = nil
+  local next = nil
+
+  for _, ext_row in ipairs(ext_rows) do
+    if row > ext_row then prev = ext_row end
+
+    if row < ext_row then
+      next = ext_row
+      break
+    end
+  end
+
+  local destination = nil
+  if direction == "next" then
+    destination = next
+  elseif direction == "prev" then
+    destination = prev
+  end
+
+  if not destination then
+    vim.notify("no more annotation in this direction", vim.log.levels.ERROR)
+    return
+  end
+
+  vim.api.nvim_win_set_cursor(0, { destination, 0 })
+end
+
 local default_opts = {
   create_default_colors = true,
+  mappings = {
+    next_annotation = "]n",
+    prev_annotation = "[n",
+  },
 }
 
 function M.setup(opts)
@@ -277,6 +315,18 @@ function M.setup(opts)
   vim.api.nvim_create_user_command("HA", command_ha, { force = true, nargs = "*", complete = complete_ha })
 
   if M._opts.create_default_colors then create_default_colors() end
+
+  if M._opts.mappings.next_annotation then
+    vim.keymap.set("n", M._opts.mappings.next_annotation, function()
+      navigate_to_annotation("next")
+    end)
+  end
+
+  if M._opts.mappings.prev_annotation then
+    vim.keymap.set("n", M._opts.mappings.prev_annotation, function()
+      navigate_to_annotation("prev")
+    end)
+  end
 end
 
 return M

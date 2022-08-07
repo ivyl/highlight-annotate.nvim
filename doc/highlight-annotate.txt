@@ -22,12 +22,19 @@ Replace {} with your options. See |highlight-annotate-opts| for details.
 opts                                                  *highlight-annotate-opts*
 
     >
-opts = {
-  -- create the default colors/styles, see |highlight-annotate-colors|
-  create_default_colors = true,
-}
-<
+    opts = {
+      -- create the default colors/styles, see |highlight-annotate-colors|
+      create_default_colors = true,
 
+      mappings = {
+        -- mapping to jump to the next annotation, set to false to diable
+        next_annotation = "]n",
+
+        -- mapping to jump to the previous annotation, set to false to diable
+        prev_annotation = "[n",
+      },
+    }
+<
 
 
 ================================================================================
