@@ -11,17 +11,14 @@ editing session.
 highlight_annotate.setup({})                        *highlight_annotate.setup()*
 
     Setup function to initialize the plugin and configure |:HA| command.
-
-    >
-    require('highlight-annotate').setup({})
+>
+        require('highlight-annotate').setup({})
 <
-
-Replace {} with your options. See |highlight-annotate-opts| for details.
+    Replace {} with your options. See |highlight-annotate-opts| for details.
 
 
 opts                                                  *highlight-annotate-opts*
-
-    >
+>
     opts = {
       -- create the default colors/styles, see |highlight-annotate-colors|
       create_default_colors = true,
@@ -35,7 +32,6 @@ opts                                                  *highlight-annotate-opts*
       },
     }
 <
-
 
 ================================================================================
 COLORS                                               *highlight-annotate-colors*
