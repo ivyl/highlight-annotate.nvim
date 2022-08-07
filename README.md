@@ -6,6 +6,18 @@ files such as logs or program sources.
 The [highlights](#highlight) and [annotations](#annotate) are not persistent
 and last only for the current editing session.
 
+
+## Install
+
+[packer.nvim](https://github.com/wbthomason/packer.nvim):
+
+```lua
+use { 'ivyl/highlight-annotate.nvim', config = function()
+  require'highlight-annotate'.setup({})
+end }
+```
+
+
 ## Docs
 
 [`:help highlight-annotate.txt`](doc/highlight-annotate.txt)
